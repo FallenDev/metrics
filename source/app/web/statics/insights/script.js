@@ -1,8 +1,7 @@
 ;(async function() {
   //App
-  return new Vue({
+  return Vue.createApp({
     //Initialization
-    el: "main",
     async mounted() {
       //Palette
       try {
@@ -257,7 +256,7 @@
       },
     },
     //Data initialization
-    data: {
+    data: () => ({
       version: "",
       hosted: null,
       user: "",
@@ -273,6 +272,6 @@
       config: {},
       progress: 0,
       loaded: [],
-    },
-  })
+    }),
+  }).mount("main")
 })()

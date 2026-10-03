@@ -1,6 +1,6 @@
 //Imports
 const path = require("path")
-const git = require("simple-git")(path.join(__dirname, ".."))
+const git = require("simple-git").simpleGit(path.join(__dirname, ".."))
 
 //Edited files list
 const diff = async () => (await git.diff(["origin/master...", "--name-status"])).split("\n").map(x => x.trim()).filter(x => /^M\s+/.test(x)).map(x => x.replace(/^M\s+/, ""))

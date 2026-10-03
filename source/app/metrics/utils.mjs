@@ -10,7 +10,9 @@ import emoji from "emoji-name-map"
 import fs from "fs/promises"
 import { JSDOM } from "jsdom"
 import linguist from "linguist-js"
-import { marked } from "marked"
+import { Marked, marked } from "marked"
+import { markedHighlight } from "marked-highlight"
+import { markedXhtml } from "marked-xhtml"
 import { minimatch } from "minimatch"
 import opengraph from "open-graph-scraper"
 import os from "os"
@@ -22,7 +24,7 @@ import purgecss from "purgecss"
 import readline from "readline"
 import htmlsanitize from "sanitize-html"
 import sharp from "sharp"
-import git from "simple-git"
+import { simpleGit as git } from "simple-git"
 import url from "url"
 import util from "util"
 import xmlformat from "xml-formatter"
@@ -46,7 +48,7 @@ export const puppeteer = {
       ignoreDefaultArgs: ["--disable-extensions"],
     })
   },
-  headless: "new",
+  headless: true,
   events: ["load", "domcontentloaded", "networkidle2"],
 }
 
@@ -205,7 +207,7 @@ export function stripemojis(string) {
 /**Language analyzer (single file) */
 export async function language({filename, patch}) {
   console.debug(`metrics/language > ${filename}`)
-  const {files: {results}} = await linguist(filename, {fileContent: patch})
+  const {files: {results}} = await linguist.analyseRawContent({[filename]: patch})
   const result = (results[filename] ?? "unknown").toLocaleLowerCase()
   console.debug(`metrics/language > ${filename} > result: ${result}`)
   return result
@@ -235,7 +237,7 @@ export async function run(command, options, {prefixed = true, log = true, debug 
 }
 
 /**Spawn command (use this to execute commands and process output on the fly) */
-export async function spawn(command, args = [], options = {}, {prefixed = true, timeout = 300 * 1000, stdout, debug = true} = {}) { //eslint-disable-line max-params
+export async function spawn(command, args = [], options = {}, {prefixed = true, timeout = 300 * 1000, stdout, debug = true} = {}) {
   const prefix = {win32: "wsl"}[process.platform] ?? ""
   if ((prefixed) && (prefix)) {
     args.unshift(command)
@@ -279,10 +281,13 @@ export function highlight(code, lang) {
   return lang in prism.languages ? prism.highlight(code, prism.languages[lang]) : code
 }
 
+/**Markdown parser with code highlighting and xhtml output */
+const markdowner = new Marked(markedHighlight({langPrefix: "language-", highlight}), markedXhtml())
+
 /**Markdown-html sanitizer-interpreter */
 export async function markdown(text, {mode = "inline", codelines = Infinity} = {}) {
   //Sanitize user input once to prevent injections and parse into markdown
-  let rendered = await marked.parse(htmlunescape(htmlsanitize(text)), {highlight, silent: true, xhtml: true})
+  let rendered = await markdowner.parse(htmlunescape(htmlsanitize(text)), {silent: true})
   //Markdown mode
   switch (mode) {
     case "inline": {
@@ -302,7 +307,7 @@ export async function markdown(text, {mode = "inline", codelines = Infinity} = {
       break
   }
   //Trim code snippets
-  rendered = rendered.replace(/(?<open><code[\s\S]*?>)(?<code>[\s\S]*?)(?<close><\/code>)/g, (m, open, code, close) => { //eslint-disable-line max-params
+  rendered = rendered.replace(/(?<open><code[\s\S]*?>)(?<code>[\s\S]*?)(?<close><\/code>)/g, (m, open, code, close) => {
     const lines = code.trim().split("\n")
     if (lines.length > 1) {
       if (/class=".*language-[\s\S]+?.*"/.test(open))
@@ -482,7 +487,7 @@ export const svg = {
     //Render through browser and print pdf
     console.debug("metrics/svg/pdf > loading svg")
     const page = await svg.resize.browser.newPage()
-    page.on("console", ({_text: text}) => console.debug(`metrics/svg/pdf > puppeteer > ${text}`))
+    page.on("console", message => console.debug(`metrics/svg/pdf > puppeteer > ${message.text()}`))
     await page.setContent(`<main class="markdown-body">${rendered}</main>`, {waitUntil: puppeteer.events})
     console.debug("metrics/svg/pdf > loaded svg successfully")
     const margins = (Array.isArray(paddings) ? paddings : paddings.split(",")).join(" ")

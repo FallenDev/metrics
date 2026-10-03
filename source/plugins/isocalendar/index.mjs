@@ -78,7 +78,7 @@ export default async function({login, data, graphql, q, imports, queries, accoun
 
 /**Compute max and current streaks */
 async function statistics({login, graphql, queries, start, end, calendar}) {
-  let average = 0, max = 0, streak = {max: 0, current: 0}, values = []
+  let average, max = 0, streak = {max: 0, current: 0}, values = []
   //Load contribution calendar
   for (let from = new Date(start); from < end;) {
     //Set date range

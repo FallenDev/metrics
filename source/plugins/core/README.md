@@ -623,7 +623,7 @@ When doing so, any settings which defaults on user fetched values will not be te
 <i>(comma-separated)</i>
 <br>
 <b>default:</b> css, xml<br>
-<b>allowed values:</b><ul><li>css</li><li>xml</li><li>svg</li></ul></td>
+<b>allowed values:</b><ul><li>css</li><li>xml</li></ul></td>
   </tr>
   <tr>
     <td nowrap="nowrap"><h4><code>setup_community_templates</code></h4></td>
@@ -775,7 +775,7 @@ May increase filesize.</p>
     <td rowspan="2"><p>Use GitHub custom emojis</p>
 <p>GitHub supports additional emojis which are not registered in Unicode standard (:octocat:, :shipit:, :trollface:, ...)
 See full list at <a href="https://api.github.com/emojis">https://api.github.com/emojis</a>.</p>
-<p>This option has no effect when [`token: NOT_NEEDED``](/source/plugins/core/README.md#token) is set.</p>
+<p>This option has no effect when <a href="/source/plugins/core/README.md#token">`token: NOT_NEEDED``</a> is set.</p>
 <p>May increase filesize</p>
 <img width="900" height="1" alt=""></td>
   </tr>

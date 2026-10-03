@@ -1,8 +1,7 @@
 ;(async function() {
   //App
-  return new Vue({
+  return Vue.createApp({
     //Initialization
-    el: "main",
     async mounted() {
       //Palette
       try {
@@ -69,7 +68,7 @@
       },
     },
     //Data initialization
-    data: {
+    data: () => ({
       version: "",
       hosted: null,
       requests: {rest: {limit: 0, used: 0, remaining: 0, reset: NaN}, graphql: {limit: 0, used: 0, remaining: 0, reset: NaN}, search: {limit: 0, used: 0, remaining: 0, reset: NaN}},
@@ -93,6 +92,6 @@
           return false
         }
       })(),
-    },
-  })
+    }),
+  }).mount("main")
 })()

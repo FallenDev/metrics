@@ -388,8 +388,7 @@ with:
   token: NOT_NEEDED
   base: ""
   plugin_music: yes
-  plugin_music_playlist: >-
-    https://music.youtube.com/playlist?list=OLAK5uy_kU_uxp9TUOl9zVdw77xith8o9AknVwz9U
+  plugin_music_playlist: https://music.youtube.com/playlist?list=OLAK5uy_kU_uxp9TUOl9zVdw77xith8o9AknVwz9U
 
 ```
 ```yaml

@@ -215,7 +215,7 @@ export default async function metrics({login, q}, {graphql, rest, plugins, conf,
   catch (error) {
     //User not found
     if (((Array.isArray(error.errors)) && (error.errors[0].type === "NOT_FOUND")))
-      throw new Error("user not found")
+      throw new Error("user not found", {cause: error})
     //Generic error
     throw error
   }
@@ -285,7 +285,7 @@ metrics.insights.output = async function({login, imports, conf}, {graphql, rest,
   const result = await metrics.insights({login}, {graphql, rest, conf}, {Plugins, Templates})
   const json = JSON.stringify(result)
   await page.goto(`${server}/insights/${login}?embed=1&localstorage=1`)
-  await page.evaluate(async json => localStorage.setItem("local.metrics", json), json) //eslint-disable-line no-undef
+  await page.evaluate(async json => localStorage.setItem("local.metrics", json), json)
   await page.goto(`${server}/insights/${login}?embed=1&localstorage=1`)
   await page.waitForSelector(".container .user", {timeout: 10 * 60 * 1000})
 

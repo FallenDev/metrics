@@ -4,9 +4,8 @@
   delete metadata.core.web.output
   delete metadata.core.web.twemojis
   //App
-  return new Vue({
+  return Vue.createApp({
     //Initialization
-    el: "main",
     async mounted() {
       //Interpolate config from browser
       try {
@@ -78,7 +77,6 @@
         }
       }, 100)
     },
-    components: {Prism: PrismComponent},
     //Watchers
     watch: {
       palette: {
@@ -90,7 +88,7 @@
       },
     },
     //Data initialization
-    data: {
+    data: () => ({
       version: "",
       user: new URLSearchParams(location.search).get("user") || "",
       tab: "overview",
@@ -159,7 +157,7 @@
         content: "",
         error: false,
       },
-    },
+    }),
     //Computed data
     computed: {
       //URL parameters
@@ -280,6 +278,10 @@
     },
     //Methods
     methods: {
+      //Highlight code
+      highlight(code, language) {
+        return Prism.highlight(code, Prism.languages[language], language)
+      },
       //Copy text to clipboard
       copy(text) {
         navigator.clipboard.writeText(text)
@@ -352,5 +354,5 @@
         return required.filter(permission => !this.extras.includes(permission)).length === 0
       },
     },
-  })
+  }).mount("main")
 })()

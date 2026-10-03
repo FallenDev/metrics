@@ -2,9 +2,9 @@
 import fs from "fs/promises"
 import os from "os"
 import paths from "path"
-import git from "simple-git"
+import { simpleGit as git } from "simple-git"
 import { filters } from "../../../app/metrics/utils.mjs"
-import core from "@actions/core"
+import * as core from "@actions/core"
 
 /**Analyzer */
 export class Analyzer {
@@ -117,7 +117,7 @@ export class Analyzer {
   async analyze(path, {commits = []} = {}) {
     const cache = {files: {}, languages: {}}
     const start = Date.now()
-    let elapsed = 0, processed = 0
+    let elapsed, processed = 0
     if (this.timeout.repositories)
       this.debug(`timeout for repository analysis set to ${this.timeout.repositories}m`)
     for (const commit of commits) {

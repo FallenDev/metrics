@@ -1,6 +1,6 @@
 //Imports
 import fs from "fs"
-import yaml from "js-yaml"
+import * as yaml from "js-yaml"
 import { marked } from "marked"
 import path from "path"
 import url from "url"
@@ -203,11 +203,11 @@ metadata.plugin = async function({__plugins, __templates, name, logger}) {
                   try {
                     value = JSON.parse(value)
                   }
-                  catch (error) {
+                  catch {
                     try {
                       value = JSON.parse(decodeURIComponent(value))
                     }
-                    catch (error) {
+                    catch {
                       logger(`metrics/inputs > failed to parse json : ${value}`)
                       value = JSON.parse(defaulted)
                     }
@@ -324,7 +324,7 @@ metadata.plugin = async function({__plugins, __templates, name, logger}) {
               [key]: Object.fromEntries(
                 Object.entries(value).filter(([key]) => ["description", "default", "required"].includes(key)).map(([k, v]) => k === "description" ? [k, v.split("\n")[0]] : k === "default" ? [k, ((/^\$\{\{[\s\S]+\}\}$/.test(v)) || (["config_presets", "config_timezone", "use_prebuilt_image"].includes(key))) ? v : "<default-value>"] : [k, v]),
               ),
-            }, {quotingType: '"', noCompatMode: true}),
+            }, {quoteStyle: "double", schema: yaml.CORE_SCHEMA}),
           },
         ]),
       )

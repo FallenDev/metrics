@@ -1,8 +1,7 @@
 ;(async function() {
   //App
-  return new Vue({
+  return Vue.createApp({
     //Initialization
-    el: "main",
     async mounted() {
       //Interpolate config from browser
       try {
@@ -55,7 +54,7 @@
       },
     },
     //Data initialization
-    data: {
+    data: () => ({
       version: "",
       user1: "",
       user2: "",
@@ -64,7 +63,7 @@
       hosted: null,
       modes: [],
       oauth: false,
-    },
+    }),
     //Computed data
     computed: {
       //URL parameters
@@ -96,5 +95,5 @@
         window.location.href = `/embed?user=${this.user2}`
       },
     },
-  })
+  }).mount("main")
 })()

@@ -103,7 +103,8 @@
                     <div class="name">{{ plugins.descriptions[plugin.name] || plugin.name }}</div>
                   </label>
                   <div class="options">
-                    <label v-for="(input, key) in options(plugin)" v-if="(plugins.enabled[plugin.name])&&(key !== plugin.name)" class="option" :class="{unsupported:!supports(input)}" :title="!supports(input) ? 'This option is not enabled on web instance, use it with GitHub actions !' : ''">
+                    <template v-for="(input, key) in options(plugin)">
+                    <label v-if="(plugins.enabled[plugin.name])&&(key !== plugin.name)" class="option" :class="{unsupported:!supports(input)}" :title="!supports(input) ? 'This option is not enabled on web instance, use it with GitHub actions !' : ''">
                       <i>{{ input.text.split("\n")[0] }}</i>
                       <input type="checkbox" v-if="input.type === 'boolean'" v-model="plugins.options[key]" @change="mock">
                       <input type="number" v-else-if="input.type === 'number'" v-model="plugins.options[key]" @change="mock" :min="input.min" :max="input.max">
@@ -112,6 +113,7 @@
                       </select>
                       <input type="text" v-else v-model="plugins.options[key]" @change="mock" :placeholder="input.placeholder">
                     </label>
+                    </template>
                   </div>
                 </div>
               </details>
@@ -130,8 +132,8 @@
                       <i>{{ plugins.descriptions[`base.${part}`] || `base.${part}` }}</i>
                       <input type="checkbox" v-model="plugins.enabled.base[part]" @change="mock" :disabled="generated.pending">
                     </label>
-                    <template v-for="(input, key) in metadata.base" v-if="key !== 'base'">
-                      <label class="option">
+                    <template v-for="(input, key) in metadata.base">
+                      <label v-if="key !== 'base'" class="option">
                         <i>{{ input.text.split("\n")[0] }}</i>
                         <input type="checkbox" v-if="input.type === 'boolean'" v-model="plugins.options[key]" @change="mock">
                         <input type="number" v-else-if="input.type === 'number'" v-model="plugins.options[key]" @change="mock" :min="input.min" :max="input.max">
@@ -195,7 +197,7 @@
               </div>
               Add the markdown below to your <i>README.md</i> <template v-if="user">at <a :href="repo">{{ user }}/{{ user }}</a></template>
               <div class="code">
-                <Prism language="markdown" :code="embed"></Prism>
+                <pre class="language-markdown"><code class="language-markdown" v-html="highlight(embed, 'markdown')"></code></pre>
               </div>
             </div>
             <div v-else-if="tab == 'action'">
@@ -204,7 +206,7 @@
               </div>
               Create a new workflow with the following content <template v-if="user">at <a :href="repo">{{ user }}/{{ user }}</a></template>
               <div class="code">
-                <Prism language="yaml" :code="action"></Prism>
+                <pre class="language-yaml"><code class="language-yaml" v-html="highlight(action, 'yaml')"></code></pre>
               </div>
             </div>
           </div>
@@ -228,7 +230,6 @@
     <script src="/.js/ejs.min.js"></script>
     <script src="/.js/faker.min.js?v=7.x" type="module"></script>
     <script src="/.js/vue.min.js"></script>
-    <script src="/.js/vue.prism.min.js"></script>
     <script src="/.js/embed/app.placeholder.js?v=3.34"></script>
     <script src="/.js/embed/app.js?v=3.34"></script>
   </body>

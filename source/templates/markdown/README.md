@@ -141,8 +141,7 @@ uses: mikey-/metrics@latest
 with:
   template: markdown
   filename: metrics.markdown.md
-  markdown: >-
-    https://raw.githubusercontent.com/lowlighter/metrics/examples/metrics.markdown.template.md
+  markdown: https://raw.githubusercontent.com/lowlighter/metrics/examples/metrics.markdown.template.md
   config_output: markdown
   token: ${{ secrets.METRICS_TOKEN }}
 
@@ -153,8 +152,7 @@ uses: mikey-/metrics@latest
 with:
   template: markdown
   filename: metrics.markdown.full.md
-  markdown: >-
-    https://raw.githubusercontent.com/lowlighter/metrics/master/source/templates/markdown/example.md
+  markdown: https://raw.githubusercontent.com/lowlighter/metrics/master/source/templates/markdown/example.md
   config_output: markdown
   plugin_activity: yes
   plugin_activity_limit: 7
@@ -181,8 +179,7 @@ uses: mikey-/metrics@latest
 with:
   template: markdown
   filename: metrics.markdown.pdf
-  markdown: >-
-    https://raw.githubusercontent.com/lowlighter/metrics/master/source/templates/markdown/example.pdf.md
+  markdown: https://raw.githubusercontent.com/lowlighter/metrics/master/source/templates/markdown/example.pdf.md
   config_output: markdown-pdf
   plugin_rss: yes
   plugin_rss_source: https://news.ycombinator.com/rss

@@ -1,11 +1,11 @@
 /**Mocked data */
-export default function({faker, url, options, login = faker.internet.userName()}) {
+export default function({faker, url, options, login = faker.internet.username()}) {
   //Twitter api
   if (/^https:..api.twitter.com.*$/.test(url)) {
     //Get user profile
     if ((/users.by.username/.test(url)) && (options?.headers?.Authorization === "Bearer MOCKED_TOKEN")) {
       console.debug(`metrics/compute/mocks > mocking twitter api result > ${url}`)
-      const username = url.match(/username[/](?<username>.*?)[?]/)?.groups?.username ?? faker.internet.userName()
+      const username = url.match(/username[/](?<username>.*?)[?]/)?.groups?.username ?? faker.internet.username()
       return ({
         status: 200,
         data: {

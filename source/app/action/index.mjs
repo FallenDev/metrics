@@ -1,11 +1,11 @@
 //Imports
-import core from "@actions/core"
-import github from "@actions/github"
-import octokit from "@octokit/graphql"
+import * as core from "@actions/core"
+import * as github from "@actions/github"
+import * as octokit from "@octokit/graphql"
 import processes from "child_process"
 import fs from "fs/promises"
 import paths from "path"
-import sgit from "simple-git"
+import { simpleGit as sgit } from "simple-git"
 import util from "util"
 import mocks from "../../../tests/mocks/index.mjs"
 import metrics from "../metrics/index.mjs"
@@ -577,9 +577,9 @@ function quit(reason) {
               const q = `repo:${github.context.repo.owner}/${github.context.repo.repo}+type:pr+state:open+Auto-generated metrics for run #${github.context.runId}+in:title`
               const prs = (await committer.rest.search.issuesAndPullRequests({q})).data.items.filter(({user: {login}}) => login === "github-actions[bot]")
               if (prs.length < 1)
-                throw new Error("0 matching prs. Cannot proceed.")
+                throw new Error("0 matching prs. Cannot proceed.", {cause: error})
               if (prs.length > 1)
-                throw new Error(`Found more than one matching prs: ${prs.map(({number}) => `#${number}`).join(", ")}. Cannot proceed.`)
+                throw new Error(`Found more than one matching prs: ${prs.map(({number}) => `#${number}`).join(", ")}. Cannot proceed.`, {cause: error})
               ;({number} = prs.shift())
             }
             //Check if pull request could not been created because there are no diff between head and base

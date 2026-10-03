@@ -1,6 +1,6 @@
 //Imports
-import octokit from "@octokit/graphql"
-import OctokitRest from "@octokit/rest"
+import * as octokit from "@octokit/graphql"
+import * as OctokitRest from "@octokit/rest"
 import axios from "axios"
 import compression from "compression"
 import crypto from "crypto"
@@ -89,7 +89,7 @@ export default async function({sandbox = false} = {}) {
         return (disabled) || (!!cache.get(req.params.login))
       },
       message: "Too many requests: retry later",
-      headers: true,
+      legacyHeaders: true,
       ...ratelimiter,
     }))
   }
@@ -104,7 +104,7 @@ export default async function({sandbox = false} = {}) {
   })
 
   //Base routes
-  const limiter = ratelimit({max: debug ? Number.MAX_SAFE_INTEGER : 60, windowMs: 60 * 1000, headers: false})
+  const limiter = ratelimit({limit: debug ? Number.MAX_SAFE_INTEGER : 60, windowMs: 60 * 1000, legacyHeaders: false})
   const metadata = Object.fromEntries(
     Object.entries(conf.metadata.plugins)
       .map(([key, value]) => [key, Object.fromEntries(Object.entries(value).filter(([key]) => ["name", "icon", "category", "web", "supports", "scopes", "deprecated"].includes(key)))])
@@ -164,13 +164,11 @@ export default async function({sandbox = false} = {}) {
   //Scripts
   app.get("/.js/app.js", limiter, (req, res) => res.sendFile(`${conf.paths.statics}/app.js`))
   app.get("/.js/ejs.min.js", limiter, (req, res) => res.sendFile(`${conf.paths.node_modules}/ejs/ejs.min.js`))
-  app.get("/.js/faker.min.js", limiter, (req, res) => res.set({"Content-Type": "text/javascript"}).send("import {faker} from '/.js/faker/index.mjs';globalThis.faker=faker;globalThis.placeholder.init(globalThis)"))
-  app.use("/.js/faker", express.static(`${conf.paths.node_modules}/@faker-js/faker/dist/esm`))
+  app.get("/.js/faker.min.js", limiter, (req, res) => res.set({"Content-Type": "text/javascript"}).send("import {faker} from '/.js/faker/locale/en.js';globalThis.faker=faker;globalThis.placeholder.init(globalThis)"))
+  app.use("/.js/faker", express.static(`${conf.paths.node_modules}/@faker-js/faker/dist`))
   app.get("/.js/axios.min.js", limiter, (req, res) => res.sendFile(`${conf.paths.node_modules}/axios/dist/axios.min.js`))
   app.get("/.js/axios.min.js.map", limiter, (req, res) => res.sendFile(`${conf.paths.node_modules}/axios/dist/axios.min.js.map`))
-  app.get("/.js/vue.min.js", limiter, (req, res) => res.sendFile(`${conf.paths.node_modules}/vue/dist/vue.min.js`))
-  app.get("/.js/vue.prism.min.js", limiter, (req, res) => res.sendFile(`${conf.paths.node_modules}/vue-prism-component/dist/vue-prism-component.min.js`))
-  app.get("/.js/vue-prism-component.min.js.map", limiter, (req, res) => res.sendFile(`${conf.paths.node_modules}/vue-prism-component/dist/vue-prism-component.min.js.map`))
+  app.get("/.js/vue.min.js", limiter, (req, res) => res.sendFile(`${conf.paths.node_modules}/vue/dist/vue.global.prod.js`))
   app.get("/.js/prism.min.js", limiter, (req, res) => res.sendFile(`${conf.paths.node_modules}/prismjs/prism.js`))
   app.get("/.js/prism.yaml.min.js", limiter, (req, res) => res.sendFile(`${conf.paths.node_modules}/prismjs/components/prism-yaml.min.js`))
   app.get("/.js/prism.markdown.min.js", limiter, (req, res) => res.sendFile(`${conf.paths.node_modules}/prismjs/components/prism-markdown.min.js`))
@@ -306,7 +304,7 @@ export default async function({sandbox = false} = {}) {
   if (conf.settings.modes.includes("insights")) {
     console.debug("metrics/app > setup insights mode")
     //Legacy routes
-    app.get("/about/*", (req, res) => res.redirect(req.path.replace("/about/", "/insights/")))
+    app.get("/about/{*splat}", (req, res) => res.redirect(req.path.replace("/about/", "/insights/")))
     //Static routes
     app.get("/insights/", limiter, (req, res) => res.sendFile(`${conf.paths.statics}/insights/index.html`))
     app.get("/insights/index.html", limiter, (req, res) => res.sendFile(`${conf.paths.statics}/insights/index.html`))
@@ -402,8 +400,8 @@ export default async function({sandbox = false} = {}) {
     })
   }
   else {
-    app.get("/about/*", (req, res) => res.redirect(req.path.replace("/about/", "/insights/")))
-    app.get("/insights/*", (req, res) => res.status(405).send("Method not allowed: this endpoint is not available"))
+    app.get("/about/{*splat}", (req, res) => res.redirect(req.path.replace("/about/", "/insights/")))
+    app.get("/insights/{*splat}", (req, res) => res.status(405).send("Method not allowed: this endpoint is not available"))
   }
 
   //Metrics embed
@@ -416,7 +414,7 @@ export default async function({sandbox = false} = {}) {
     app.get("/.js/embed/app.js", limiter, (req, res) => res.sendFile(`${conf.paths.statics}/embed/app.js`))
     app.get("/.js/embed/app.placeholder.js", limiter, (req, res) => res.sendFile(`${conf.paths.statics}/embed/app.placeholder.js`))
     //App routes
-    app.get("/:login/:repository?", ...middlewares, async (req, res, next) => {
+    app.get("/:login{/:repository}", ...middlewares, async (req, res, next) => {
       //Request params
       const login = req.params.login?.replace(/[\n\r]/g, "")
       const repository = req.params.repository?.replace(/[\n\r]/g, "")
@@ -454,18 +452,18 @@ export default async function({sandbox = false} = {}) {
         console.debug(`metrics/app/${login} > 503 (maximum users reached)`)
         return res.status(503).send("Service Unavailable: maximum number of users reached, only cached metrics are available")
       }
-      //Repository alias
+      //Repository alias (req.query is re-parsed on each access since Express 5, so work on a single copy)
+      const q = req.query
       if (repository) {
         console.debug(`metrics/app/${login} > compute repository metrics`)
-        if (!req.query.template)
-          req.query.template = "repository"
-        req.query.repo = repository
+        if (!q.template)
+          q.template = "repository"
+        q.repo = repository
       }
 
       //Compute rendering
       try {
         //Prepare settings
-        const q = req.query
         console.debug(`metrics/app/${login} > ${util.inspect(q, {depth: Infinity, maxStringLength: 256})}`)
         const octokit = {...api, ...uapi(req.headers["x-metrics-session"])}
         let uconf = conf
@@ -533,7 +531,7 @@ export default async function({sandbox = false} = {}) {
     })
   }
   else {
-    app.get("/embed/*", (req, res) => res.status(405).send("Method not allowed: this endpoint is not available"))
+    app.get("/embed/{*splat}", (req, res) => res.status(405).send("Method not allowed: this endpoint is not available"))
   }
 
   //Control endpoints

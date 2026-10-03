@@ -78,7 +78,7 @@ export class IndepthAnalyzer extends Analyzer {
           this.debug("skipping import of gpg keys as we are not in GitHub Actions environment")
         }
       }
-      catch (error) {
+      catch {
         this.debug(`an error occurred while importing gpg ${id}, skipping...`)
       }
       finally {
@@ -204,7 +204,7 @@ export class IndepthAnalyzer extends Analyzer {
       if ((!(edition.path in cache.files)) && (!seen.has(commit.sha))) {
         this.debug(`language for file ${edition.path} is not in cache, running linguist at ${commit.sha}`)
         await this.shell.run(`git checkout ${commit.sha}`, {cwd: path, env: {LANG: "en_GB"}}, {log: false, debug: false, prefixed: false})
-        const {files: {results: files}, languages: {results: languages}} = await linguist(path)
+        const {files: {results: files}, languages: {results: languages}} = await linguist.analyseFolders([path])
         Object.assign(cache.files, files)
         Object.assign(cache.languages, languages)
         seen.add(commit.sha)

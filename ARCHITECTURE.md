@@ -101,7 +101,7 @@ Below is a list of used packages.
   * To make HTTP/S requests
 * [actions/toolkit](https://github.com/actions/toolkit/tree/master)
   * To build the GitHub Action
-* [vuejs/vue](https://github.com/vuejs/vue), [egoist/vue-prism-component](https://github.com/egoist/vue-prism-component), [prismjs/prism](https://github.com/prismjs/prism)
+* [vuejs/vue](https://github.com/vuejs/vue) and [prismjs/prism](https://github.com/prismjs/prism)
   * To display server application
 * [puppeteer/puppeteer](https://github.com/puppeteer/puppeteer)
   * To scrape the web

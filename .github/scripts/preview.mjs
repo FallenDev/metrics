@@ -57,19 +57,17 @@ fs.copyFile(paths.join(__node_modules, "prismjs/themes/prism-tomorrow.css"), pat
 //Scripts
 fs.writeFile(paths.join(__preview_js, "app.js"), `${await fs.readFile(paths.join(__web, "app.js"))}`)
 fs.copyFile(paths.join(__node_modules, "ejs/ejs.min.js"), paths.join(__preview_js, "ejs.min.js"))
-fs.writeFile(paths.join(__preview_js, "faker.min.js"), "import {faker} from '/.js/faker/index.mjs';globalThis.faker=faker;globalThis.placeholder.init(globalThis)")
+fs.writeFile(paths.join(__preview_js, "faker.min.js"), "import {faker} from '/.js/faker/locale/en.js';globalThis.faker=faker;globalThis.placeholder.init(globalThis)")
 for (const path of [[], ["locale"]]) {
   await fs.mkdir(paths.join(__preview_js, "faker", ...path), {recursive: true})
-  for (const file of await fs.readdir(paths.join(__node_modules, "@faker-js/faker/dist/esm", ...path))) {
-    if (file.endsWith(".mjs"))
-      fs.copyFile(paths.join(__node_modules, "@faker-js/faker/dist/esm", ...path, file), paths.join(__preview_js, "faker", ...path, file))
+  for (const file of await fs.readdir(paths.join(__node_modules, "@faker-js/faker/dist", ...path))) {
+    if (file.endsWith(".js"))
+      fs.copyFile(paths.join(__node_modules, "@faker-js/faker/dist", ...path, file), paths.join(__preview_js, "faker", ...path, file))
   }
 }
 fs.copyFile(paths.join(__node_modules, "axios/dist/axios.min.js"), paths.join(__preview_js, "axios.min.js"))
 fs.copyFile(paths.join(__node_modules, "axios/dist/axios.min.js.map"), paths.join(__preview_js, "axios.min.js.map"))
-fs.copyFile(paths.join(__node_modules, "vue/dist/vue.min.js"), paths.join(__preview_js, "vue.min.js"))
-fs.copyFile(paths.join(__node_modules, "vue-prism-component/dist/vue-prism-component.min.js"), paths.join(__preview_js, "vue.prism.min.js"))
-fs.copyFile(paths.join(__node_modules, "vue-prism-component/dist/vue-prism-component.min.js.map"), paths.join(__preview_js, "vue-prism-component.min.js.map"))
+fs.copyFile(paths.join(__node_modules, "vue/dist/vue.global.prod.js"), paths.join(__preview_js, "vue.min.js"))
 fs.copyFile(paths.join(__node_modules, "prismjs/prism.js"), paths.join(__preview_js, "prism.min.js"))
 fs.copyFile(paths.join(__node_modules, "prismjs/components/prism-yaml.min.js"), paths.join(__preview_js, "prism.yaml.min.js"))
 fs.copyFile(paths.join(__node_modules, "prismjs/components/prism-markdown.min.js"), paths.join(__preview_js, "prism.markdown.min.js"))

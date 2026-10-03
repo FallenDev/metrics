@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.16
 
 # Base image
-FROM node:22
+FROM node:26
 
 # Install latest chrome dev package, fonts to support major charsets and skip chromium download on puppeteer install
 # Based on https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-puppeteer-in-docker

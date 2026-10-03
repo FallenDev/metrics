@@ -27,7 +27,7 @@ export default async function({login, q, imports, data, account}, {token, enable
     console.debug(`metrics/compute/${login}/plugins > steam > fetching owned games`)
     let {data: {response: {game_count: count, games}}} = await imports.axios.get(urls.games.owned)
     result.games.count = count
-    result.games.playtime = games.reduce((total, {playtime_forever: playtime}) => (total += playtime), 0) / 60
+    result.games.playtime = games.reduce((total, {playtime_forever: playtime}) => total + playtime, 0) / 60
 
     //Fetch game achievements and order games by section
     for (const section of ["most-played", "recently-played"]) {
