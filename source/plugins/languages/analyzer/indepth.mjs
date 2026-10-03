@@ -204,9 +204,10 @@ export class IndepthAnalyzer extends Analyzer {
       if ((!(edition.path in cache.files)) && (!seen.has(commit.sha))) {
         this.debug(`language for file ${edition.path} is not in cache, running linguist at ${commit.sha}`)
         await this.shell.run(`git checkout ${commit.sha}`, {cwd: path, env: {LANG: "en_GB"}}, {log: false, debug: false, prefixed: false})
-        const {files: {results: files}, languages: {results: languages}} = await linguist.analyseFolders([path])
+        const {files: {results: files}, languages: {results: languages}, repository} = await linguist.analyseFolders([path])
         Object.assign(cache.files, files)
-        Object.assign(cache.languages, languages)
+        for (const language in languages)
+          cache.languages[language] = {...languages[language], ...repository[language]}
         seen.add(commit.sha)
       }
       if (!(edition.path in cache.files))

@@ -112,9 +112,10 @@ export class RecentAnalyzer extends Analyzer {
       edited.add(edition.path)
 
       //Guess file language with linguist
-      const {files: {results: files}, languages: {results: languages}, unknown} = await linguist.analyseRawContent({[edition.path]: edition.patch})
+      const {files: {results: files}, languages: {results: languages}, repository, unknown} = await linguist.analyseRawContent({[edition.path]: edition.patch})
       Object.assign(cache.files, files)
-      Object.assign(cache.languages, languages)
+      for (const language in languages)
+        cache.languages[language] = {...languages[language], ...repository[language]}
       if (!(edition.path in cache.files))
         cache.files[edition.path] = "<unknown>"
 
