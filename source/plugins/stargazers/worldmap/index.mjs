@@ -1,5 +1,4 @@
 //Imports
-import { Client as Gmap } from "@googlemaps/google-maps-services-js"
 import color from "color"
 import * as d3 from "d3"
 import { D3node } from "../../../app/metrics/utils.mjs"
@@ -14,13 +13,12 @@ export default async function(login, {locations, sample, imports, token}) {
   let stars = new Map()
   if (token) {
     const cache = new Map()
-    const get = new Gmap()
     locations = imports.shuffle(locations.filter(string => string).map(string => string.toLocaleLowerCase())).slice(0, sample || Infinity)
     for (const location of locations) {
       console.debug(`metrics/compute/${login}/plugins > stargazers > worldmap > looking for ${location}`)
       if (!cache.has(location)) {
         try {
-          const {data: {results}} = await get.geocode({params: {address: location, key: token}})
+          const {data: {results}} = await imports.axios.get("https://maps.googleapis.com/maps/api/geocode/json", {params: {address: location, key: token}})
           const country = results.at(0).address_components.find(({types}) => types.includes("country"))
           cache.set(location, country.short_name ?? country.long_name)
           console.debug(`metrics/compute/${login}/plugins > stargazers > worldmap > ${location} resolved to ${cache.get(location)}`)

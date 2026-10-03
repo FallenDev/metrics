@@ -78,7 +78,6 @@ gifencoder
 Gister
 githubs
 gitted
-Gmap
 gnuplot
 Gollum
 googlechrome
