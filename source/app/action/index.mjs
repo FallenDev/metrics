@@ -121,7 +121,6 @@ function quit(reason) {
       "setup.community.templates": _templates,
       filename: _filename,
       optimize,
-      verify,
       "markdown.cache": _markdown_cache,
       debug,
       "debug.flags": dflags,
@@ -332,7 +331,6 @@ function quit(reason) {
     conf.settings.optimize = optimize
     info("SVG output", filename)
     info("SVG optimization", optimize)
-    info("SVG verification after generation", verify)
 
     //Template
     info.break()
@@ -404,7 +402,7 @@ function quit(reason) {
     info.break()
     info.section("Rendering")
     let {rendered, mime} = await retry(async () => {
-      const {rendered, mime, errors} = await metrics({login: user, q}, {graphql, rest, plugins, conf, die, verify, convert}, {Plugins, Templates})
+      const {rendered, mime, errors} = await metrics({login: user, q}, {graphql, rest, plugins, conf, die, convert}, {Plugins, Templates})
       if (errors.length) {
         console.warn(`::group::${errors.length} error(s) occurred`)
         console.warn(util.inspect(errors, {depth: Infinity, maxStringLength: 256}))

@@ -95,20 +95,18 @@ Below is a list of used packages.
   * To render SVG images
 * [ptarjan/node-cache](https://github.com/ptarjan/node-cache)
   * To cache generated content
-* [lovell/sharp](https://github.com/lovell/sharp), [foliojs/png.js](https://github.com/foliojs/png.js) and [eugeneware/gifencoder](https://github.com/eugeneware/gifencoder)
+* [lovell/sharp](https://github.com/lovell/sharp)
   * To process images transformations
-* [svg/svgo](https://github.com/svg/svgo)
-  * To optimize generated SVG
 * [axios/axios](https://github.com/axios/axios)
   * To make HTTP/S requests
 * [actions/toolkit](https://github.com/actions/toolkit/tree/master)
   * To build the GitHub Action
-* [vuejs/vue](https://github.com/vuejs/vue), [egoist/vue-prism-component](https://github.com/egoist/vue-prism-component), [prismjs/prism](https://github.com/prismjs/prism) and [zenorocha/clipboard.js](https://github.com/zenorocha/clipboard.js)
+* [vuejs/vue](https://github.com/vuejs/vue), [egoist/vue-prism-component](https://github.com/egoist/vue-prism-component), [prismjs/prism](https://github.com/prismjs/prism)
   * To display server application
 * [puppeteer/puppeteer](https://github.com/puppeteer/puppeteer)
   * To scrape the web
-* [marudor/libxmljs2](https://github.com/marudor/libxmljs2) and [chrisbottin/xml-formatter](https://github.com/chrisbottin/xml-formatter)
-  * To format, test and verify SVG validity
+* [chrisbottin/xml-formatter](https://github.com/chrisbottin/xml-formatter)
+  * To format SVG
 * [facebook/jest](https://github.com/facebook/jest) and [nodeca/js-yaml](https://github.com/nodeca/js-yaml)
   * For unit testing
 * [faker-js/faker](https://github.com/faker-js/faker)

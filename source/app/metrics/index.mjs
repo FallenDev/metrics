@@ -4,7 +4,7 @@ import util from "util"
 import * as utils from "./utils.mjs"
 
 //Setup
-export default async function metrics({login, q}, {graphql, rest, plugins, conf, die = false, verify = false, convert = null, callbacks = null, warnings = []}, {Plugins, Templates}) {
+export default async function metrics({login, q}, {graphql, rest, plugins, conf, die = false, convert = null, callbacks = null, warnings = []}, {Plugins, Templates}) {
   //Compute rendering
   try {
     //Debug
@@ -38,10 +38,9 @@ export default async function metrics({login, q}, {graphql, rest, plugins, conf,
         }
         : null),
     }
-    const {"debug.flags": dflags, "experimental.features": _experimental, "config.order": _partials} = imports.metadata.plugins.core.inputs({account: "bypass", q})
+    const {"debug.flags": dflags, "config.order": _partials} = imports.metadata.plugins.core.inputs({account: "bypass", q})
     const extras = {css: imports.metadata.plugins.core.extras("extras_css", {...conf.settings, error: false}) ? q["extras.css"] ?? "" : "", js: imports.metadata.plugins.core.extras("extras_js", {...conf.settings, error: false}) ? q["extras.js"] ?? "" : ""}
     const data = {q, animated: true, large: false, base: {}, config: {}, errors: [], warnings, plugins: {}, computed: {}, extras, postscripts: []}
-    const experimental = new Set(_experimental)
     if (conf.settings["debug.headless"]) {
       imports.puppeteer.headless = false
       console.debug(`metrics/compute/${login} > disabled puppeteer headless mode`)
@@ -204,25 +203,6 @@ export default async function metrics({login, q}, {graphql, rest, plugins, conf,
       rendered = await imports.svg.optimize.css(rendered)
     if ((conf.settings?.optimize === true) || (conf.settings?.optimize?.includes?.("xml")))
       rendered = await imports.svg.optimize.xml(rendered, q)
-    if ((conf.settings?.optimize === true) || (conf.settings?.optimize?.includes?.("svg")))
-      rendered = await imports.svg.optimize.svg(rendered, q, experimental)
-    //Verify svg
-    if ((verify) && (imports.metadata.plugins.core.extras("verify", {...conf.settings, error: false}))) {
-      console.debug(`metrics/compute/${login} > verify SVG`)
-      let libxmljs = null
-      try {
-        libxmljs = (await import("libxmljs2")).default
-      }
-      catch (error) {
-        console.debug(`metrics/compute/${login} > failed to import libxmljs2 (${error}), ignoring SVG verification`)
-      }
-      if (!libxmljs) {
-        const parsed = libxmljs.parseXml(rendered)
-        if (parsed.errors.length)
-          throw new Error(`Malformed SVG : \n${parsed.errors.join("\n")}`)
-        console.debug(`metrics/compute/${login} > verified SVG, no parsing errors found`)
-      }
-    }
     //Resizing
     const {resized, mime} = await imports.svg.resize(rendered, {paddings: q["config.padding"] || conf.settings.padding, convert: convert === "svg" ? null : convert, scripts: [...data.postscripts, extras.js || null].filter(x => x)})
     rendered = resized

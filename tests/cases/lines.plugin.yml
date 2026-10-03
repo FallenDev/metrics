@@ -6,7 +6,6 @@
     plugin_lines: 'yes'
     plugin_lines_delay: 30
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 👨‍💻 Lines of code changed - Repositories and diff history
   uses: mikey-/metrics@latest
   with:
@@ -21,4 +20,3 @@
       */*
       +lowlighter/metrics
     use_mocked_data: 'yes'
-    verify: 'yes'

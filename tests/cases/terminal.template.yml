@@ -5,4 +5,3 @@
     token: MOCKED_TOKEN
     base: header, metadata
     use_mocked_data: yes
-    verify: yes

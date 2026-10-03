@@ -7,7 +7,6 @@
     plugin_contributors: 'yes'
     plugin_contributors_contributions: 'yes'
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🏅 Repository contributors - Contributors by categories
   uses: mikey-/metrics@latest
   with:
@@ -23,4 +22,3 @@
         "💻 Code (other)":["source/**", "Dockerfile"]
       }
     use_mocked_data: 'yes'
-    verify: 'yes'

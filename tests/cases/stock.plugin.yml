@@ -6,4 +6,3 @@
     plugin_stock_token: MOCKED_TOKEN
     plugin_stock_symbol: TSLA
     use_mocked_data: 'yes'
-    verify: 'yes'

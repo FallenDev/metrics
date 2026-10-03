@@ -4,4 +4,3 @@
     token: MOCKED_TOKEN
     plugin_sponsorships: 'yes'
     use_mocked_data: 'yes'
-    verify: 'yes'

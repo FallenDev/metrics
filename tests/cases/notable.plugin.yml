@@ -4,7 +4,6 @@
     token: MOCKED_TOKEN
     plugin_notable: 'yes'
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🎩 Notable contributions - Indepth analysis
   uses: mikey-/metrics@latest
   with:
@@ -13,4 +12,3 @@
     plugin_notable_indepth: 'yes'
     plugin_notable_repositories: 'yes'
     use_mocked_data: 'yes'
-    verify: 'yes'

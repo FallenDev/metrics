@@ -231,10 +231,6 @@ inputs:
     description: Debug mode
     default: <default-value>
 
-  verify:
-    description: SVG validity check
-    default: <default-value>
-
   debug_flags:
     description: Debug flags
     default: <default-value>
@@ -245,10 +241,6 @@ inputs:
 
   dryrun:
     description: Dry-run
-    default: <default-value>
-
-  experimental_features:
-    description: Experimental features
     default: <default-value>
 
   use_mocked_data:

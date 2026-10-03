@@ -416,7 +416,7 @@ Use `retries_output_action` and `retries_delay_output_action` options to automat
 
 ## 🗜️ Optimize SVG output
 
-To reduce filesize and decrease loading time, *metrics* offers several optimization options, such as purging unused CSS and style minification, XML pretty-printing (which also reduce diffs between changes) and general SVG optimization (still experimental).
+To reduce filesize and decrease loading time, *metrics* offers several optimization options, such as purging unused CSS and style minification, and XML pretty-printing (which also reduce diffs between changes).
 
 > 💡 This option is enabled by default!
 
@@ -425,14 +425,6 @@ To reduce filesize and decrease loading time, *metrics* offers several optimizat
 - uses: mikey-/metrics@latest
   with:
     optimize: css, xml
-```
-
-*Example: optimize SVG (experimental)*
-```yaml
-- uses: mikey-/metrics@latest
-  with:
-    optimize: svg
-    experimental_features: --optimize-svg
 ```
 
 ## 🐳 Faster execution with prebuilt docker images
@@ -622,7 +614,6 @@ When doing so, any settings which defaults on user fetched values will not be te
 <ul>
 <li><code>css</code>: purge and minify CSS styles</li>
 <li><code>xml</code>: pretty-print XML (useful to reduce diff)</li>
-<li><code>svg</code>: optimization with SVGO (experimental, requires <a href="/source/plugins/core/README.md#experimental_features"><code>experimental_features: --optimize-svg</code></a>)</li>
 </ul>
 <p>Templates may not always honour all provided options</p>
 <img width="900" height="1" alt=""></td>
@@ -1094,22 +1085,6 @@ This option has no effects on forks (images will always be rebuilt from Dockerfi
 <b>default:</b> no<br></td>
   </tr>
   <tr>
-    <td nowrap="nowrap"><h4><code>verify</code></h4></td>
-    <td rowspan="2"><p>SVG validity check</p>
-<img width="900" height="1" alt=""></td>
-  </tr>
-  <tr>
-    <td nowrap="nowrap">⏯️ Cannot be preset<br>
-🔧 For development<br>
-🌐 Web instances must configure <code>settings.json</code>:
-<ul>
-<li><i>metrics.npm.optional.libxml2</i></li>
-</ul>
-<b>type:</b> <code>boolean</code>
-<br>
-<b>default:</b> no<br></td>
-  </tr>
-  <tr>
     <td nowrap="nowrap"><h4><code>debug_flags</code></h4></td>
     <td rowspan="2"><p>Debug flags</p>
 <ul>
@@ -1166,22 +1141,6 @@ This option has no effects on forks (images will always be rebuilt from Dockerfi
 <b>type:</b> <code>boolean</code>
 <br>
 <b>default:</b> no<br></td>
-  </tr>
-  <tr>
-    <td nowrap="nowrap"><h4><code>experimental_features</code></h4></td>
-    <td rowspan="2"><p>Experimental features</p>
-<blockquote>
-<p>⚠️ No backward compatibility is guaranteed for these features</p>
-</blockquote>
-<img width="900" height="1" alt=""></td>
-  </tr>
-  <tr>
-    <td nowrap="nowrap">⏯️ Cannot be preset<br>
-🔧 For development<br>
-<b>type:</b> <code>array</code>
-<i>(space-separated)</i>
-<br>
-<b>allowed values:</b><ul><li>--optimize-svg</li></ul></td>
   </tr>
   <tr>
     <td nowrap="nowrap"><h4><code>use_mocked_data</code></h4></td>

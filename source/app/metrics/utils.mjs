@@ -7,8 +7,6 @@ import crypto from "crypto"
 import { minify as csso } from "csso"
 import * as d3 from "d3"
 import emoji from "emoji-name-map"
-import { fileTypeFromBuffer } from "file-type"
-import fss from "fs"
 import fs from "fs/promises"
 import { JSDOM } from "jsdom"
 import linguist from "linguist-js"
@@ -17,7 +15,6 @@ import { minimatch } from "minimatch"
 import opengraph from "open-graph-scraper"
 import os from "os"
 import paths from "path"
-import PNG from "png-js"
 import prism from "prismjs"
 import prism_lang from "prismjs/components/index.js"
 import _puppeteer from "puppeteer"
@@ -26,7 +23,6 @@ import readline from "readline"
 import htmlsanitize from "sanitize-html"
 import sharp from "sharp"
 import git from "simple-git"
-import SVGO from "svgo"
 import url from "url"
 import util from "util"
 import xmlformat from "xml-formatter"
@@ -449,9 +445,8 @@ export async function imgb64(image, {width, height, fallback = true} = {}) {
   let ext = "png"
   try {
     if (image.startsWith("http://") || image.startsWith("https://")) {
-      const buffer = Buffer.from(await fetch(image).then(response => response.arrayBuffer()))
-      ext = (await fileTypeFromBuffer(buffer))?.ext ?? ext
-      image = sharp(buffer)
+      image = sharp(Buffer.from(await fetch(image).then(response => response.arrayBuffer())))
+      ext = (await image.metadata()).format ?? ext
     }
     else {
       image = sharp(image)
@@ -705,33 +700,6 @@ export const svg = {
       }
       return xmlformat(rendered, {lineSeparator: "\n", collapseContent: true})
     },
-    /**SVG optimizer */
-    async svg(rendered, {raw = false} = {}, experimental = new Set()) {
-      console.debug("metrics/svg/optimize/svg > optimizing")
-      if (raw) {
-        console.debug("metrics/svg/optimize/svg > skipped as raw option is enabled")
-        return rendered
-      }
-      if (!experimental.has("--optimize")) {
-        console.debug("metrics/svg/optimize/svg > this feature require experimental feature flag --optimize-svg")
-        return rendered
-      }
-      const {error, data: optimized} = await SVGO.optimize(rendered, {
-        multipass: true,
-        plugins: SVGO.extendDefaultPlugins([
-          //Additional cleanup
-          {name: "cleanupListOfValues"},
-          {name: "removeRasterImages"},
-          {name: "removeScriptElement"},
-          //Force CSS style consistency
-          {name: "inlineStyles", active: false},
-          {name: "removeViewBox", active: false},
-        ]),
-      })
-      if (error)
-        throw new Error(`Could not optimize SVG: \n${error}`)
-      return optimized
-    },
   },
 }
 
@@ -757,34 +725,19 @@ export async function record({page, width, height, frames, scale = 1, quality = 
 }
 
 /**Create gif from puppeteer browser*/
-export async function gif({page, width, height, frames, x = 0, y = 0, repeat = true, delay = 150, quality = 10}) {
-  //Create temporary stream
-  const path = paths.join(os.tmpdir(), `${Math.round(Math.random() * 1000000000)}.gif`)
-  console.debug(`metrics/puppeteergif > set write stream to "${path}"`)
-  if (fss.existsSync(path))
-    await fs.unlink(path)
-  //Create encoder
+export async function gif({page, width, height, frames, x = 0, y = 0, repeat = true, delay = 150}) {
   try {
-    const GIFEncoder = (await import("gifencoder")).default
-    const encoder = new GIFEncoder(width, height)
-    encoder.createWriteStream().pipe(fss.createWriteStream(path))
-    encoder.start()
-    encoder.setRepeat(repeat ? 0 : -1)
-    encoder.setDelay(delay)
-    encoder.setQuality(quality)
     //Register frames
+    const images = []
     for (let i = 0; i < frames; i++) {
-      const buffer = new PNG(await page.screenshot({clip: {width, height, x, y}}))
-      encoder.addFrame(await new Promise(solve => buffer.decode(pixels => solve(pixels))))
+      images.push(await page.screenshot({clip: {width, height, x, y}}))
       if (frames % 10 === 0)
         console.debug(`metrics/puppeteergif > processed ${i}/${frames} frames`)
     }
     console.debug(`metrics/puppeteergif > processed ${frames}/${frames} frames`)
-    //Close encoder and convert to base64
-    encoder.finish()
-    const result = await fs.readFile(path, "base64")
-    await fs.unlink(path)
-    return `data:image/gif;base64,${result}`
+    //Encode and convert to base64
+    const result = await sharp(images, {join: {animated: true}}).gif({loop: repeat ? 0 : 1, delay}).toBuffer()
+    return `data:image/gif;base64,${result.toString("base64")}`
   }
   catch (error) {
     console.debug(`metrics/puppeteergif > could not create gif: ${error}`)

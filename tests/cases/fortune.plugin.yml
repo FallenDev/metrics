@@ -4,4 +4,3 @@
     token: NOT_NEEDED
     plugin_fortune: 'yes'
     use_mocked_data: 'yes'
-    verify: 'yes'

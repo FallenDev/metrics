@@ -81,17 +81,6 @@
     components: {Prism: PrismComponent},
     //Watchers
     watch: {
-      tab: {
-        immediate: true,
-        handler(current) {
-          if (current === "markdown")
-            this.clipboard = new ClipboardJS(".copy-markdown")
-          else if (current === "action")
-            this.clipboard = new ClipboardJS(".copy-action")
-          else
-            this.clipboard?.destroy()
-        },
-      },
       palette: {
         immediate: true,
         handler(current, previous) {
@@ -106,7 +95,6 @@
       user: new URLSearchParams(location.search).get("user") || "",
       tab: "overview",
       palette: "light",
-      clipboard: null,
       requests: {rest: {limit: 0, used: 0, remaining: 0, reset: NaN}, graphql: {limit: 0, used: 0, remaining: 0, reset: NaN}, search: {limit: 0, used: 0, remaining: 0, reset: NaN}},
       cached: new Map(),
       config: Object.fromEntries(Object.entries(metadata.core.web).map(([key, {defaulted}]) => [key, defaulted])),
@@ -292,6 +280,10 @@
     },
     //Methods
     methods: {
+      //Copy text to clipboard
+      copy(text) {
+        navigator.clipboard.writeText(text)
+      },
       //Refresh computed properties
       async refresh() {
         const keys = {action: ["scopes", "action"], markdown: ["url", "embed"]}[this.tab]

@@ -7,7 +7,6 @@
     plugin_screenshot_url: https://xkcd.com
     plugin_screenshot_selector: '#comic img'
     use_mocked_data: 'yes'
-    verify: 'yes'
   timeout: 1800000
   modes:
     - action

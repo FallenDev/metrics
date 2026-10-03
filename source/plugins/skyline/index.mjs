@@ -41,7 +41,7 @@ export default async function({login, q, imports, data, account}, {enabled = fal
 
     //Generate gif
     console.debug(`metrics/compute/${login}/plugins > skyline > generating frames`)
-    const animation = compatibility ? await imports.record({page, width, height, frames, scale: quality}) : await imports.gif({page, width, height, frames, quality: Math.max(1, quality * 20)})
+    const animation = compatibility ? await imports.record({page, width, height, frames, scale: quality}) : await imports.gif({page, width, height, frames})
 
     //Close puppeteer
     await browser.close()

@@ -20,7 +20,6 @@ inputs:
     default: no
     extras:
       - metrics.cpu.overuse
-      - metrics.npm.optional.gifencoder
       - metrics.run.puppeteer.scrapping
 
   plugin_skyline_year:

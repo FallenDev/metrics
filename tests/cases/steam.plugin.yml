@@ -8,7 +8,6 @@
     plugin_steam_sections: recently-played
     plugin_steam_achievements_limit: 0
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🕹️ Steam - Profile and detailed game history
   uses: mikey-/metrics@latest
   with:
@@ -17,4 +16,3 @@
     plugin_steam: 'yes'
     plugin_steam_user: '0'
     use_mocked_data: 'yes'
-    verify: 'yes'

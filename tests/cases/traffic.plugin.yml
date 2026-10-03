@@ -5,4 +5,3 @@
     base: repositories
     plugin_traffic: 'yes'
     use_mocked_data: 'yes'
-    verify: 'yes'

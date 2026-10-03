@@ -5,4 +5,3 @@
     plugin_discussions: 'yes'
     plugin_discussions_categories_limit: 8
     use_mocked_data: 'yes'
-    verify: 'yes'

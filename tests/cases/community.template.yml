@@ -5,7 +5,6 @@
     template: "@classic"
     setup_community_templates: lowlighter/metrics@master:classic
     use_mocked_data: yes
-    verify: yes
   modes:
     - action
 - name: 📕 Community templates - Using a trusted community template
@@ -15,6 +14,5 @@
     template: "@terminal"
     setup_community_templates: lowlighter/metrics@master:terminal+trust
     use_mocked_data: yes
-    verify: yes
   modes:
     - action

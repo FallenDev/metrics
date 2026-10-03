@@ -47,7 +47,6 @@ All product and company names are trademarks™ or registered® trademarks of th
     <td nowrap="nowrap">🌐 Web instances must configure <code>settings.json</code>:
 <ul>
 <li><i>metrics.cpu.overuse</i></li>
-<li><i>metrics.npm.optional.gifencoder</i></li>
 <li><i>metrics.run.puppeteer.scrapping</i></li>
 </ul>
 <b>type:</b> <code>boolean</code>

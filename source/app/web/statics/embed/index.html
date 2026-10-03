@@ -191,7 +191,7 @@
             </div>
             <div v-else-if="tab == 'markdown'">
               <div>
-                <button class="copy-markdown" data-clipboard-target=".code">Copy Markdown Code</button>
+                <button class="copy-markdown" @click="copy(embed)">Copy Markdown Code</button>
               </div>
               Add the markdown below to your <i>README.md</i> <template v-if="user">at <a :href="repo">{{ user }}/{{ user }}</a></template>
               <div class="code">
@@ -200,7 +200,7 @@
             </div>
             <div v-else-if="tab == 'action'">
               <div>
-                <button class="copy-action" data-clipboard-target=".code">Copy Action Code</button>
+                <button class="copy-action" @click="copy(action)">Copy Action Code</button>
               </div>
               Create a new workflow with the following content <template v-if="user">at <a :href="repo">{{ user }}/{{ user }}</a></template>
               <div class="code">
@@ -229,7 +229,6 @@
     <script src="/.js/faker.min.js?v=7.x" type="module"></script>
     <script src="/.js/vue.min.js"></script>
     <script src="/.js/vue.prism.min.js"></script>
-    <script src="/.js/clipboard.min.js"></script>
     <script src="/.js/embed/app.placeholder.js?v=3.34"></script>
     <script src="/.js/embed/app.js?v=3.34"></script>
   </body>

@@ -6,7 +6,6 @@
     base: header
     plugin_introduction: 'yes'
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🙋 Introduction - Repository introduction
   uses: mikey-/metrics@latest
   with:
@@ -16,4 +15,3 @@
     base: header
     plugin_introduction: 'yes'
     use_mocked_data: 'yes'
-    verify: 'yes'

@@ -5,4 +5,3 @@
     base: header, repositories
     plugin_lines: yes
     use_mocked_data: yes
-    verify: yes

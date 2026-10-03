@@ -6,4 +6,3 @@
     plugin_projects_repositories: lowlighter/metrics/projects/1
     plugin_projects_descriptions: 'yes'
     use_mocked_data: 'yes'
-    verify: 'yes'

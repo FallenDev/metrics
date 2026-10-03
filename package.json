@@ -38,7 +38,6 @@
     "@primer/octicons": "^19.15.2",
     "@twemoji/parser": "^14.1.0",
     "axios": "^1.9.0",
-    "clipboard": "^2.0.11",
     "compression": "^1.8.0",
     "csso": "^5.0.5",
     "d3": "^7.9.0",
@@ -46,7 +45,6 @@
     "emoji-name-map": "^1.2.9",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
-    "file-type": "^18.7.0",
     "js-yaml": "^4.1.0",
     "jsdom": "^22.1.0",
     "linguist-js": "^2.9.2",
@@ -54,7 +52,6 @@
     "memory-cache": "^0.2.0",
     "minimatch": "^9.0.5",
     "open-graph-scraper": "^6.10.0",
-    "png-js": "^1.0.0",
     "prismjs": "^1.30.0",
     "puppeteer": "^24.9.0",
     "purgecss": "^5.0.0",
@@ -62,7 +59,6 @@
     "sanitize-html": "^2.17.0",
     "sharp": "^0.34.2",
     "simple-git": "^3.27.0",
-    "svgo": "^3.3.2",
     "vue": "^3.0.0",
     "vue-prism-component": "^1.2.0",
     "xml-formatter": "^3.6.6"
@@ -81,9 +77,6 @@
     "@googlemaps/google-maps-services-js": "^3.4.1",
     "chess.js": "^1.2.0",
     "color": "^4.2.3",
-    "gifencoder": "^2.0.1",
-    "libxmljs2": "^0.35.0",
-    "rss": "^1.2.2",
     "yargs-parser": "^21.1.1"
   }
 }

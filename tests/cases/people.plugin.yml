@@ -5,7 +5,6 @@
     plugin_people: 'yes'
     plugin_people_types: followers
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🧑‍🤝‍🧑 People - Contributors and sponsors
   uses: mikey-/metrics@latest
   with:
@@ -15,4 +14,3 @@
     plugin_people: 'yes'
     plugin_people_types: contributors, stargazers, watchers, sponsors
     use_mocked_data: 'yes'
-    verify: 'yes'

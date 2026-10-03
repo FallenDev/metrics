@@ -119,7 +119,6 @@ jobs:
           plugins_errors_fatal: yes
           dryrun: yes
           use_mocked_data: yes
-          verify: yes
 
   # Publish examples
   publish-examples:
@@ -211,7 +210,6 @@ jobs:
           plugins_errors_fatal: yes
           dryrun: yes
           use_mocked_data: yes
-          verify: yes
 
   # Deploy to metrics.lecoq.io
   deploy-latest:

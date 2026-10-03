@@ -8,7 +8,6 @@
       gnuplot
     plugin_languages_limit: 4
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🈷️ Languages activity - Most used (with details)
   uses: mikey-/metrics@latest
   with:
@@ -20,7 +19,6 @@
     plugin_languages_details: bytes-size, percentage
     plugin_languages_limit: 4
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🈷️ Languages activity - Recently used
   uses: mikey-/metrics@latest
   with:
@@ -33,4 +31,3 @@
     plugin_languages_details: bytes-size, percentage
     plugin_languages_limit: 4
     use_mocked_data: 'yes'
-    verify: 'yes'

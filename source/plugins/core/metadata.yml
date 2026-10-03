@@ -137,7 +137,6 @@ inputs:
       Optimization features
       - `css`: purge and minify CSS styles
       - `xml`: pretty-print XML (useful to reduce diff)
-      - `svg`: optimization with SVGO (experimental, requires [`experimental_features: --optimize-svg`](/source/plugins/core/README.md#experimental_features))
 
       Templates may not always honour all provided options
     type: array
@@ -146,7 +145,6 @@ inputs:
     values:
       - css
       - xml
-      - svg
 
   setup_community_templates:
     description: |
@@ -522,16 +520,6 @@ inputs:
     testing: yes
     preset: no
 
-  verify:
-    description: |
-      SVG validity check
-    type: boolean
-    default: no
-    testing: yes
-    preset: no
-    extras:
-      - metrics.npm.optional.libxml2
-
   debug_flags:
     description: |
       Debug flags
@@ -581,19 +569,6 @@ inputs:
       > ⚠️ Unlike [`output_action: none`](/source/plugins/core/README.md#output_action), output file won't be available in `/metrics_renders` directory
     type: boolean
     default: no
-    testing: yes
-    preset: no
-
-  experimental_features:
-    description: |
-      Experimental features
-
-      > ⚠️ No backward compatibility is guaranteed for these features
-    type: array
-    format: space-separated
-    default: ""
-    values:
-      - --optimize-svg
     testing: yes
     preset: no
 

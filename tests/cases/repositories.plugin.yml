@@ -5,7 +5,6 @@
     plugin_repositories: 'yes'
     plugin_repositories_featured: lowlighter/metrics
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 📓 Featured repositories - Pinned repositories
   uses: mikey-/metrics@latest
   with:
@@ -13,4 +12,3 @@
     plugin_repositories: 'yes'
     plugin_repositories_pinned: 2
     use_mocked_data: 'yes'
-    verify: 'yes'

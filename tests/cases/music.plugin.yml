@@ -6,7 +6,6 @@
     plugin_music_playlist: https://embed.music.apple.com/fr/playlist/usr-share/pl.u-V9D7m8Etjmjd0D
     plugin_music_limit: 2
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🎼 Music activity and suggestions - Spotify - Random track from playlist
   uses: mikey-/metrics@latest
   with:
@@ -14,7 +13,6 @@
     plugin_music: 'yes'
     plugin_music_playlist: https://open.spotify.com/embed/playlist/3nfA87oeJw4LFVcUDjRcqi
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🎼 Music activity and suggestions - Spotify - Recently listed
   uses: mikey-/metrics@latest
   with:
@@ -25,7 +23,6 @@
     plugin_music_token: MOCKED_CLIENT_ID, MOCKED_CLIENT_SECRET, MOCKED_REFRESH_TOKEN
     plugin_music_limit: 2
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🎼 Music activity and suggestions - Spotify - Top tracks
   uses: mikey-/metrics@latest
   with:
@@ -37,7 +34,6 @@
     plugin_music_time_range: short
     plugin_music_top_type: tracks
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🎼 Music activity and suggestions - Spotify - Top artists
   uses: mikey-/metrics@latest
   with:
@@ -49,7 +45,6 @@
     plugin_music_time_range: long
     plugin_music_top_type: artists
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: >-
     🎼 Music activity and suggestions - Youtube Music - Random track from
     playlist
@@ -60,7 +55,6 @@
     plugin_music_playlist: >-
       https://music.youtube.com/playlist?list=OLAK5uy_kU_uxp9TUOl9zVdw77xith8o9AknVwz9U
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🎼 Music activity and suggestions - Youtube Music - Recently listed
   uses: mikey-/metrics@latest
   with:
@@ -70,7 +64,6 @@
     plugin_music_mode: recent
     plugin_music_provider: youtube
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 🎼 Music activity and suggestions - Last.fm  - Recently listed
   uses: mikey-/metrics@latest
   with:
@@ -80,4 +73,3 @@
     plugin_music_provider: lastfm
     plugin_music_user: RJ
     use_mocked_data: 'yes'
-    verify: 'yes'

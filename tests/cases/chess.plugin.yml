@@ -6,4 +6,3 @@
     plugin_chess_token: MOCKED_TOKEN
     plugin_chess_platform: lichess.org
     use_mocked_data: 'yes'
-    verify: 'yes'

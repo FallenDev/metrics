@@ -7,4 +7,3 @@
     plugin_stackoverflow_sections: answers-top
     plugin_stackoverflow_limit: 2
     use_mocked_data: 'yes'
-    verify: 'yes'

@@ -191,7 +191,7 @@ function testcase(name, env, args) {
     if (!result.with.base)
       delete result.with.base
     delete result.with.filename
-    Object.assign(result.with, {use_mocked_data: "yes", verify: "yes"})
+    Object.assign(result.with, {use_mocked_data: "yes"})
   }
 
   return result

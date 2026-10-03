@@ -7,4 +7,3 @@
     plugin_16personalities_sections: personality, traits
     plugin_16personalities_scores: 'no'
     use_mocked_data: 'yes'
-    verify: 'yes'

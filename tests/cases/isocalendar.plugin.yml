@@ -4,7 +4,6 @@
     token: MOCKED_TOKEN
     plugin_isocalendar: 'yes'
     use_mocked_data: 'yes'
-    verify: 'yes'
 - name: 📅 Isometric commit calendar - Full-year calendar
   uses: mikey-/metrics@latest
   with:
@@ -12,4 +11,3 @@
     plugin_isocalendar: 'yes'
     plugin_isocalendar_duration: full-year
     use_mocked_data: 'yes'
-    verify: 'yes'
